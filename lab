@@ -18,44 +18,78 @@ public class PushCounter
    }
 }
 
-
-
-import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
+import java.awt.event.*;
+import java.awt.*;
 
-public class PushCounterPanel extends JPanel
-{
-   private int count;
-   private JButton push;
-   private JLabel label;
+public class PushCounterPanel extends JPanel {
+    private int num, min, max;
+    private TextField minTF, maxTF;
+    private JButton push;
+    private JLabel pushLabel, minLabel, maxLabel, resultLabel;
 
-   //-----------------------------------------------------------------
-   //  Constructor: Sets up the GUI.
-   //-----------------------------------------------------------------
-   public PushCounterPanel()
-   {
-      count = 0;
+    public PushCounterPanel(){
+        //
+        minTF = new TextField();
+        minTF.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                min = stringToInt(minTF.getText());
+            }
+        });
 
-      push = new JButton("Push Me!");
-      label = new JLabel();
-      push.addActionListener(new ButtonListener());
-      add(push);
-      add(label);
+        maxTF = new TextField();
+        maxTF.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                System.out.println(maxTF.getText());
+                max = stringToInt(maxTF.getText());
+            }
+        });
 
-      setBackground(Color.cyan);
-      setPreferredSize(new Dimension(680, 40));
-   }
+        //
+        num = 0;
 
-   //*****************************************************************
-   //  Represents a listener for button push (action) events.
-   //*****************************************************************
-	private class ButtonListener implements ActionListener
-	{
-	public void actionPerformed(ActionEvent event)
-  	{
-         count++;
-         label.setText("Pushes: " + count);
-  	}
- 	}
+        push = new JButton("Generate Random Number");
+        pushLabel = new JLabel();
+        minLabel = new JLabel("min:");
+        maxLabel = new JLabel("max:");
+        resultLabel = new JLabel("result: " + num);
+        push.addActionListener(new ButtonListener());
+        add(push);
+        add(pushLabel);
+        add(minLabel);
+        add(minTF);
+        add(maxLabel);
+        add(maxTF);
+        add(resultLabel);
+
+        setBackground(Color.cyan);
+        setPreferredSize(new Dimension(680,40));
+
+
+    }
+
+    private class ButtonListener implements ActionListener{
+        public void actionPerformed(ActionEvent e){
+            min = stringToInt(minTF.getText());
+            max = stringToInt(maxTF.getText());
+            pushLabel.setText("Range:");
+            num = genRandInt(min,max);
+            resultLabel.setText(Integer.toString(num));
+        }
+    }
+
+    private int stringToInt(String s){
+        int output = 0;
+        for(int i = 0; i < s.length() ; i++) {
+            output += ((int) s.charAt(i)-48) * Math.pow(10, s.length()-i-1);
+        }
+        return output;
+    }
+
+    private int genRandInt(int min, int max){
+        if (Math.random()>.5){
+            return (int) ((max - min) * Math.random() + min)+1;
+        }
+        return (int) ((max - min) * Math.random() + min);
+    }
 }
