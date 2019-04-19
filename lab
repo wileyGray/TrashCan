@@ -1,0 +1,61 @@
+import javax.swing.JFrame;
+
+public class PushCounter
+{
+   //-----------------------------------------------------------------
+   //  Creates and displays the main program frame.
+   //-----------------------------------------------------------------
+   public static void main(String[] args)
+   {
+      JFrame frame = new JFrame("Push Counter");
+      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+      PushCounterPanel panel = new PushCounterPanel();
+      frame.getContentPane().add(panel);
+
+      frame.pack();
+      frame.setVisible(true);
+   }
+}
+
+
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class PushCounterPanel extends JPanel
+{
+   private int count;
+   private JButton push;
+   private JLabel label;
+
+   //-----------------------------------------------------------------
+   //  Constructor: Sets up the GUI.
+   //-----------------------------------------------------------------
+   public PushCounterPanel()
+   {
+      count = 0;
+
+      push = new JButton("Push Me!");
+      label = new JLabel();
+      push.addActionListener(new ButtonListener());
+      add(push);
+      add(label);
+
+      setBackground(Color.cyan);
+      setPreferredSize(new Dimension(680, 40));
+   }
+
+   //*****************************************************************
+   //  Represents a listener for button push (action) events.
+   //*****************************************************************
+	private class ButtonListener implements ActionListener
+	{
+	public void actionPerformed(ActionEvent event)
+  	{
+         count++;
+         label.setText("Pushes: " + count);
+  	}
+ 	}
+}
