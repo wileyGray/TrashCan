@@ -1,0 +1,63 @@
+public class HomeworkFive extends JFrame{
+
+    public static ImageComponent img = new ImageComponent();
+    public static JFrame frame = new JFrame();
+
+    public HomeworkFive(){
+        JFileChooser chooser = new JFileChooser();
+        setSize(500, 500);
+        setVisible(true);
+
+        chooser.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION){
+                    img.setFilePath((chooser.getSelectedFile().getAbsolutePath()));
+                    dispose();
+                    frame.add(img);
+
+                }
+            }});
+        add(chooser);
+    }
+
+    public static void main(String[] args){
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setSize(500,500);
+        HomeworkFive gui = new HomeworkFive();
+    }
+}
+///////////////////////////////////
+ImageComponent class
+///////////////////////////////////
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Toolkit;
+import javax.swing.JComponent;
+
+class ImageComponent extends JComponent{
+    private static final long serialVersionUID = 1L;
+    private String filePath = "";
+    public ImageComponent(){};
+
+    public ImageComponent(String inFilePath){
+        filePath = inFilePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public String getFilePath(){
+        return this.filePath;
+    }
+
+    public void paint(Graphics g){
+        Graphics2D g2 = (Graphics2D) g;
+        Image img1 = Toolkit.getDefaultToolkit().getImage(filePath);
+        g2.drawImage(img1, 0, 0, this);
+        g2.finalize();
+    }
+}
